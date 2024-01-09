@@ -91,6 +91,7 @@ exclude_also = [
 ]
 
 [tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
 minversion = "6.0"
 testpaths = [
     "tests",
