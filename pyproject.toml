@@ -1,0 +1,97 @@
+[tool.black]
+line_length = 88
+force_exclude = """
+        (.github/*)
+    """
+
+[tool.isort]
+profile = "black"
+quiet = "True"
+skip_glob = ".github/*"
+skip_gitignore = "True"
+combine_as_imports = "True"
+line_length = 88
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-array-field"
+version = "1.0.0"
+authors = [
+    { name = "Jerin Peter George", email = "jerinpetergeorge@gmail.com" },
+]
+description = "ListField for Django using Django's built-in JSONField"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Environment :: Web Environment",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "django>=3.1",
+]
+[project.optional-dependencies]
+# for test/dev purposes
+test = [
+    "pytest==7.4.3",
+    "pytest-django==4.7.0",
+    "pytest-httpx==0.27.0",
+    "pytest-cov==4.1.0",
+    "pytest-mock==3.12.0",
+]
+lint-and-formatting = [
+    "black",
+    "flake8",
+    "flake8-print",
+    "isort",
+    "pre-commit",
+    "mypy"
+]
+dev = ["django-array-field[test, lint-and-formatting]", "bump2version~=1.0.1"]
+
+[project.urls]
+"Homepage" = "https://github.com/ottuco/django-array-field"
+
+[tool.mypy]
+disable_error_code = "import-untyped"
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+omit = [
+    "__init__.py",
+    "tests/*",
+]
+[tool.coverage.report]
+precision = 2
+skip_empty = true
+skip_covered = true
+show_missing = true
+sort = "Cover"
+exclude_also = [
+    # Magic Methods
+    "def __str__",
+    "def __repr__",
+    "def __bool__",
+
+    # Type Checking
+    "if TYPE_CHECKING:",
+    "if typing.TYPE_CHECKING:",
+
+    # Other
+    "raise NotImplementedError",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests",
+]
