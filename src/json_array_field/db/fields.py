@@ -1,4 +1,7 @@
+from typing import Any
+
 from django.db.models import JSONField
+from django.forms import Field as FormField
 
 from ..forms.fields import JSONArrayFormField
 from ..utils import str_to_list
@@ -9,25 +12,25 @@ class JSONArrayField(JSONField):
     An alternative solution to `django_mysql.models.List[Char|Text]Field`
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         kwargs.setdefault("default", list)
         self.validate_default_type(default=kwargs["default"])
         super().__init__(*args, **kwargs)
 
-    def validate_default_type(self, default):
+    def validate_default_type(self, default: Any) -> None:
         if callable(default):
             default = default()
         if not isinstance(default, list):
             raise TypeError("Default value must be a list")
 
-    def clean_input(self, value):
+    def clean_input(self, value: Any) -> list:
         if not value:
             return self.get_default() or []
         if isinstance(value, str):
             return str_to_list(value=value)
         return value
 
-    def pre_save(self, model_instance, add):
+    def pre_save(self, model_instance, add) -> list:
         """
         The `to_python(...)` method doesn't get called when we assign values directly to
         the field. But, we really need to convert the strings into arrays.
@@ -65,7 +68,7 @@ class JSONArrayField(JSONField):
 
         return value
 
-    def formfield(self, **kwargs):
+    def formfield(self, **kwargs) -> FormField:
         defaults = {
             "form_class": JSONArrayFormField,
         }
