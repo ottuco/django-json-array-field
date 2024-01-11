@@ -9,6 +9,23 @@ class JSONArrayFieldModel(models.Model):
     def __str__(self):
         return str(self.list_field)
 
-    def save(self, **kwargs):
-        here = 123
-        return super().save(**kwargs)
+
+# class JSONArrayWithDefault(models.Model):
+#     list_field = JSONArrayField(default=list)
+#
+#     def __str__(self):
+#         return str(self.list_field)
+#
+#
+# class JSONArrayBlank(models.Model):
+#     list_field = JSONArrayField(blank=True)
+#
+#     def __str__(self):
+#         return str(self.list_field)
+#
+#
+# class JSONArrayNull(models.Model):
+#     list_field = JSONArrayField(null=True)
+#
+#     def __str__(self):
+#         return str(self.list_field)

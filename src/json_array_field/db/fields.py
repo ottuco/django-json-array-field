@@ -1,6 +1,7 @@
 from django.db.models import JSONField
 
 from ..forms.fields import JSONArrayFormField
+from ..utils import str_to_list
 
 
 class JSONArrayField(JSONField):
@@ -23,7 +24,7 @@ class JSONArrayField(JSONField):
         if not value:
             return self.get_default() or []
         if isinstance(value, str):
-            return list(filter(None, map(str.strip, value.split(","))))
+            return str_to_list(value=value)
         return value
 
     def pre_save(self, model_instance, add):

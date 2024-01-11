@@ -1,5 +1,6 @@
 import pytest
 
+from json_array_field.db.fields import JSONArrayField
 from tests.polls.models import JSONArrayFieldModel
 
 pytestmark = pytest.mark.django_db
@@ -34,6 +35,16 @@ params = [
         # with python-list
         ["Admin", "Editor", "Author"],
         ["Admin", "Editor", "Author"],
+    ),
+    (
+        # Null
+        None,
+        [],
+    ),
+    (
+        # empty
+        [],
+        [],
     ),
 ]
 
@@ -71,3 +82,23 @@ class TestJSONArrayFieldModel:
         # Pull data from the database
         instance = JSONArrayFieldModel.objects.get(pk=instance.pk)
         assert instance.list_field == expected_out
+
+    def test_default_value_non_a_list(self):
+        with pytest.raises(TypeError):
+            JSONArrayField(default=dict)
+
+    def test_default_value_callable(self):
+        def callable_default():
+            return []
+
+        JSONArrayField(default=callable_default)
+
+    def test_default_value_callable_non_a_list(self):
+        def callable_default():
+            return dict()
+
+        with pytest.raises(TypeError):
+            JSONArrayField(default=callable_default)
+
+    def test_default_value_with_static(self):
+        JSONArrayField(default=["Admin"])

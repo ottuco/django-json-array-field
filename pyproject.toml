@@ -17,8 +17,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "django-array-field"
-version = "1.0.0"
+name = "django-json-array-field"
+version = "0.0.1"
 authors = [
     { name = "Jerin Peter George", email = "jerinpetergeorge@gmail.com" },
 ]
@@ -55,10 +55,10 @@ lint-and-formatting = [
     "pre-commit",
     "mypy"
 ]
-dev = ["django-array-field[test, lint-and-formatting]", "bump2version~=1.0.1"]
+dev = ["django-json-array-field[test, lint-and-formatting]", "bump2version~=1.0.1"]
 
 [project.urls]
-"Homepage" = "https://github.com/ottuco/django-array-field"
+"Homepage" = "https://github.com/ottuco/django-json-array-field"
 
 [tool.mypy]
 disable_error_code = "import-untyped"
