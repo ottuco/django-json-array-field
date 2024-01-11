@@ -42,6 +42,9 @@ dependencies = [
 drf = [
     "djangorestframework>=3.12",
 ]
+all = [
+    "django-json-array-field[drf]",
+]
 # for test/dev purposes
 test = [
     "pytest==7.4.3",
@@ -58,7 +61,7 @@ lint-and-formatting = [
     "pre-commit",
     "mypy"
 ]
-dev = ["django-json-array-field[drf, test, lint-and-formatting]", "bump2version~=1.0.1"]
+dev = ["django-json-array-field[all, test, lint-and-formatting]", "bump2version~=1.0.1"]
 
 [project.urls]
 "Homepage" = "https://github.com/ottuco/django-json-array-field"
