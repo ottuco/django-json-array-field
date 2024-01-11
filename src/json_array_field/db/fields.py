@@ -4,7 +4,7 @@ from django.db.models import JSONField
 from django.forms import Field as FormField
 
 from ..forms.fields import JSONArrayFormField
-from ..utils import str_to_list
+from ..utils import clean_input_data
 
 
 class JSONArrayField(JSONField):
@@ -24,11 +24,7 @@ class JSONArrayField(JSONField):
             raise TypeError("Default value must be a list")
 
     def clean_input(self, value: Any) -> list:
-        if not value:
-            return self.get_default() or []
-        if isinstance(value, str):
-            return str_to_list(value=value)
-        return value
+        return clean_input_data(data=value, default=self.get_default)
 
     def pre_save(self, model_instance, add) -> list:
         """

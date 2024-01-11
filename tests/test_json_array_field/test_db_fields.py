@@ -1,56 +1,14 @@
 import pytest
 
 from json_array_field.db.fields import JSONArrayField
+from tests.params import params_with_null_and_blank
 from tests.polls.models import JSONArrayFieldModel
 
 pytestmark = pytest.mark.django_db
 
-params = [
-    (
-        # Normal
-        "Admin, Editor, Author",
-        ["Admin", "Editor", "Author"],
-    ),
-    (
-        # Whitespace
-        "Admin,     Editor,Author, ",
-        ["Admin", "Editor", "Author"],
-    ),
-    (
-        # With double-quotes
-        '"Admin", "Editor", "Author"',
-        ['"Admin"', '"Editor"', '"Author"'],
-    ),
-    (
-        # With single-quotes
-        "'Admin', 'Editor', 'Author'",
-        ["'Admin'", "'Editor'", "'Author'"],
-    ),
-    (
-        # with string-list representation
-        '["Admin", "Editor", "Author"]',
-        ['["Admin"', '"Editor"', '"Author"]'],
-    ),
-    (
-        # with python-list
-        ["Admin", "Editor", "Author"],
-        ["Admin", "Editor", "Author"],
-    ),
-    (
-        # Null
-        None,
-        [],
-    ),
-    (
-        # empty
-        [],
-        [],
-    ),
-]
-
 
 class TestJSONArrayFieldModel:
-    @pytest.mark.parametrize("list_field, expected_out", params)
+    @pytest.mark.parametrize("list_field, expected_out", params_with_null_and_blank)
     def test_create_using_manager(self, list_field, expected_out):
         instance = JSONArrayFieldModel.objects.create(list_field=list_field)
 
@@ -60,7 +18,7 @@ class TestJSONArrayFieldModel:
         instance = JSONArrayFieldModel.objects.get(pk=instance.pk)
         assert instance.list_field == expected_out
 
-    @pytest.mark.parametrize("list_field, expected_out", params)
+    @pytest.mark.parametrize("list_field, expected_out", params_with_null_and_blank)
     def test_create_using_constructor(self, list_field, expected_out):
         instance = JSONArrayFieldModel(list_field=list_field)
         instance.save()
@@ -71,7 +29,7 @@ class TestJSONArrayFieldModel:
         instance = JSONArrayFieldModel.objects.get(pk=instance.pk)
         assert instance.list_field == expected_out
 
-    @pytest.mark.parametrize("list_field, expected_out", params)
+    @pytest.mark.parametrize("list_field, expected_out", params_with_null_and_blank)
     def test_assigning_value_using_constructor(self, list_field, expected_out):
         instance = JSONArrayFieldModel()
         instance.list_field = list_field
